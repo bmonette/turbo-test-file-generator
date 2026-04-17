@@ -8,6 +8,7 @@ from config import OUTPUT_DIR
 from generators.text_generator import TextGenerator
 from generators.csv_generator import CsvGenerator
 from generators.json_generator import JsonGenerator
+from generators.log_generator import LogGenerator
 from services.batch_service import run_batch_generation
 
 
@@ -19,17 +20,20 @@ def main():
         text_generator = TextGenerator(output_dir=OUTPUT_DIR)
         csv_generator = CsvGenerator(output_dir=OUTPUT_DIR)
         json_generator = JsonGenerator(output_dir=OUTPUT_DIR)
+        log_generator = LogGenerator(output_dir=OUTPUT_DIR)
 
         generators = {
             "txt": text_generator,
             "csv": csv_generator,
             "json": json_generator,
+            "log": log_generator,
+
         }
 
         results = run_batch_generation(
             generators=generators,
             output_dir=OUTPUT_DIR,
-            file_types=["txt", "csv", "json"],
+            file_types=["txt", "csv", "json", "log"],
             file_count=3,
             use_nested_folders=True,
             custom_metadata={
@@ -56,6 +60,9 @@ def main():
 
             if "record_count" in result:
                 print(f"Record Count: {result['record_count']}")
+
+            if "line_count" in result:
+                print(f"Line Count: {result['line_count']}")
 
             print(f"Metadata: {result['metadata']}")
             print("-" * 50)
