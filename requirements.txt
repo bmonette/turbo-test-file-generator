@@ -1,0 +1,8 @@
+faker
+pillow
+piexif
+mutagen
+python-docx
+openpyxl
+reportlab
+pypdf

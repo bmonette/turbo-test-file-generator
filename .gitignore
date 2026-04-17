@@ -1,0 +1,53 @@
+# Dependencies
+/node_modules
+/launcher/node_modules
+/vendor
+/dist
+/build
+/out-tsc
+
+# Environment variables and sensitive files
+.env
+.env.local
+.venv/
+env/
+*.log
+npm-debug.log
+yarn-error.log
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Compiled/Generated files
+*.pyc
+__pycache__/
+/target
+/classes
+
+# IDEs and editors
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.sublime-workspace
+*.launch
+.project
+.classpath
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.swp
+*.bak
+
+# Pytest
+.pytest_cache/
+
+# Jupyter
+.ipynb_checkpoints/
