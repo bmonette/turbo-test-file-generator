@@ -6,6 +6,7 @@ import csv
 
 from generators.base_generator import BaseGenerator
 from metadata.builder import build_metadata
+from metadata.sidecar_writer import write_sidecar_metadata
 from utils.helpers import build_file_path, ensure_directory
 from utils.random_data import get_random_row
 
@@ -62,6 +63,11 @@ class CsvGenerator(BaseGenerator):
             writer.writeheader()
             writer.writerows(rows)
 
+        sidecar_path = None
+
+        if self.use_sidecar_metadata:
+            sidecar_path = write_sidecar_metadata(file_path, built_metadata)
+
         return {
             "file_name": filename,
             "file_type": self.file_type,
@@ -70,5 +76,6 @@ class CsvGenerator(BaseGenerator):
             "size_bytes": file_path.stat().st_size,
             "row_count": row_count,
             "sidecar_metadata_enabled": self.use_sidecar_metadata,
+            "sidecar_path": str(sidecar_path) if sidecar_path else None,
             "embedded_metadata_enabled": self.use_embedded_metadata,
         }
