@@ -66,7 +66,7 @@ class PdfGenerator(BaseGenerator):
 
         # Create PDF content
         c = canvas.Canvas(str(file_path), pagesize=letter)
-        width, height = letter
+        _, height = letter
 
         title = get_random_title()
         c.setFont("Helvetica-Bold", 16)
@@ -88,13 +88,24 @@ class PdfGenerator(BaseGenerator):
         c.save()
 
         # Apply embedded metadata
+        embedded_metadata_written = False
+
         if self.use_embedded_metadata:
             apply_pdf_metadata(file_path, built_metadata)
+            embedded_metadata_written = True
+
+        sidecar_path = None
+
+        if self.use_sidecar_metadata:
+            sidecar_path = write_sidecar_metadata(file_path, built_metadata)
 
         # Write sidecar metadata
         sidecar_path = None
-        if self.use_sidecar_metadata:
-            sidecar_path = write_sidecar_metadata(file_path, built_metadata)
+        embedded_metadata_written = False
+
+        if self.use_embedded_metadata:
+            apply_pdf_metadata(file_path, built_metadata)
+            embedded_metadata_written = True
 
         return {
             "file_name": filename,
@@ -105,4 +116,5 @@ class PdfGenerator(BaseGenerator):
             "sidecar_metadata_enabled": self.use_sidecar_metadata,
             "sidecar_path": str(sidecar_path) if sidecar_path else None,
             "embedded_metadata_enabled": self.use_embedded_metadata,
+            "embedded_metadata_written": embedded_metadata_written,
         }
