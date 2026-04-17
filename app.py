@@ -7,6 +7,7 @@ This version tests the TXT and CSV generators with the batch service.
 from config import OUTPUT_DIR
 from generators.text_generator import TextGenerator
 from generators.csv_generator import CsvGenerator
+from generators.json_generator import JsonGenerator
 from services.batch_service import run_batch_generation
 
 
@@ -17,16 +18,18 @@ def main():
     try:
         text_generator = TextGenerator(output_dir=OUTPUT_DIR)
         csv_generator = CsvGenerator(output_dir=OUTPUT_DIR)
+        json_generator = JsonGenerator(output_dir=OUTPUT_DIR)
 
         generators = {
             "txt": text_generator,
             "csv": csv_generator,
+            "json": json_generator,
         }
 
         results = run_batch_generation(
             generators=generators,
             output_dir=OUTPUT_DIR,
-            file_types=["txt", "csv"],
+            file_types=["txt", "csv", "json"],
             file_count=3,
             use_nested_folders=True,
             custom_metadata={
@@ -42,12 +45,17 @@ def main():
             print(f"File Name: {result['file_name']}")
             print(f"File Type: {result['file_type']}")
             print(f"File Path: {result['file_path']}")
+
             if result.get("sidecar_path"):
                 print(f"Sidecar Path: {result['sidecar_path']}")
+
             print(f"Size (bytes): {result['size_bytes']}")
 
             if "row_count" in result:
                 print(f"Row Count: {result['row_count']}")
+
+            if "record_count" in result:
+                print(f"Record Count: {result['record_count']}")
 
             print(f"Metadata: {result['metadata']}")
             print("-" * 50)
