@@ -11,6 +11,7 @@ from generators.json_generator import JsonGenerator
 from generators.log_generator import LogGenerator
 from generators.markdown_generator import MarkdownGenerator
 from generators.docx_generator import DocxGenerator
+from generators.pdf_generator import PdfGenerator
 from services.batch_service import run_batch_generation
 
 
@@ -25,6 +26,7 @@ def main():
         log_generator = LogGenerator(output_dir=OUTPUT_DIR)
         markdown_generator = MarkdownGenerator(output_dir=OUTPUT_DIR)
         docx_generator = DocxGenerator(output_dir=OUTPUT_DIR)
+        pdf_generator = PdfGenerator(output_dir=OUTPUT_DIR)
 
         generators = {
             "txt": text_generator,
@@ -33,12 +35,13 @@ def main():
             "log": log_generator,
             "md": markdown_generator,
             "docx": docx_generator,
+            "pdf": pdf_generator,
         }
 
         results = run_batch_generation(
             generators=generators,
             output_dir=OUTPUT_DIR,
-            file_types=["txt", "csv", "json", "log", "md", "docx"],
+            file_types=["txt", "csv", "json", "log", "md", "docx", "pdf"],
             file_count=3,
             use_nested_folders=True,
             custom_metadata={
