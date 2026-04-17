@@ -42,6 +42,8 @@ def main():
             print(f"File Name: {result['file_name']}")
             print(f"File Type: {result['file_type']}")
             print(f"File Path: {result['file_path']}")
+            if result.get("sidecar_path"):
+                print(f"Sidecar Path: {result['sidecar_path']}")
             print(f"Size (bytes): {result['size_bytes']}")
 
             if "row_count" in result:
