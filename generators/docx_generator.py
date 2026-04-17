@@ -15,6 +15,26 @@ from utils.random_data import (
 )
 
 
+def apply_docx_core_properties(document, metadata):
+    """
+    Apply supported metadata fields to DOCX core properties.
+
+    Args:
+        document: python-docx Document instance.
+        metadata: Metadata dictionary.
+    """
+    core_props = document.core_properties
+
+    core_props.author = str(metadata.get("author", ""))
+    core_props.category = str(metadata.get("category", ""))
+    core_props.comments = str(metadata.get("comments", ""))
+    core_props.identifier = str(metadata.get("test_id", ""))
+    core_props.keywords = ", ".join(metadata.get("tags", []))
+    core_props.last_modified_by = str(metadata.get("author", ""))
+    core_props.subject = str(metadata.get("file_type", ""))
+    core_props.title = str(metadata.get("file_name", ""))
+
+
 class DocxGenerator(BaseGenerator):
     """
     Generator for DOCX files.
@@ -60,6 +80,7 @@ class DocxGenerator(BaseGenerator):
         built_metadata = build_metadata(filename, self.file_type, metadata)
 
         document = Document()
+        apply_docx_core_properties(document, built_metadata)
 
         title = get_random_title()
         document.add_heading(title, level=0)
