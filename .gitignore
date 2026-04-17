@@ -11,6 +11,7 @@
 .env.local
 .venv/
 env/
+output/
 *.log
 npm-debug.log
 yarn-error.log
