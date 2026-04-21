@@ -12,6 +12,7 @@ from generators.log_generator import LogGenerator
 from generators.markdown_generator import MarkdownGenerator
 from generators.docx_generator import DocxGenerator
 from generators.pdf_generator import PdfGenerator
+from generators.xlsx_generator import XlsxGenerator
 from services.batch_service import run_batch_generation
 
 
@@ -27,6 +28,7 @@ def main():
         markdown_generator = MarkdownGenerator(output_dir=OUTPUT_DIR)
         docx_generator = DocxGenerator(output_dir=OUTPUT_DIR)
         pdf_generator = PdfGenerator(output_dir=OUTPUT_DIR)
+        xlsx_generator = XlsxGenerator(output_dir=OUTPUT_DIR)
 
         generators = {
             "txt": text_generator,
@@ -36,12 +38,13 @@ def main():
             "md": markdown_generator,
             "docx": docx_generator,
             "pdf": pdf_generator,
+            "xlsx": xlsx_generator,
         }
 
         results = run_batch_generation(
             generators=generators,
             output_dir=OUTPUT_DIR,
-            file_types=["txt", "csv", "json", "log", "md", "docx", "pdf"],
+            file_types=["txt", "csv", "json", "log", "md", "docx", "pdf", "xlsx"],
             file_count=3,
             use_nested_folders=True,
             custom_metadata={
@@ -74,6 +77,9 @@ def main():
 
             if "section_count" in result:
                 print(f"Section Count: {result['section_count']}")
+
+            if "worksheet_name" in result:
+                print(f"Worksheet Name: {result['worksheet_name']}")
 
             print(f"Metadata: {result['metadata']}")
             print("-" * 50)
